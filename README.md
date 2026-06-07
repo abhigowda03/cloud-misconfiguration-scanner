@@ -96,24 +96,26 @@ Then open `http://127.0.0.1:5000` in your browser.
 
 To publish the project online, use a Python-capable hosting service such as Render, Railway, Fly.io, or Azure App Service.
 
-1. Create a new GitHub repository and push the project.
-2. Add `requirements.txt`, `app.py`, and `Procfile` to the repository.
-3. On the hosting provider, connect the GitHub repo.
-4. Set the build command to:
+### Recommended: Render.com
 
-```bash
-pip install -r requirements.txt
-```
+1. Push the repository to GitHub.
+2. Add `requirements.txt`, `app.py`, `Procfile`, and `render.yaml` to the repo.
+3. Connect the repo in Render and choose the `main` branch.
+4. Render will use `pip install -r requirements.txt` and start the app with `gunicorn app:app`.
+5. Open the public URL Render gives you.
 
-5. Set the start command to:
+### Alternative: Railway or Azure
 
-```bash
-gunicorn app:app
-```
+- Railway: connect GitHub, set the start command to `gunicorn app:app`, and deploy.
+- Azure Web App: choose Python runtime, deploy from GitHub, and use `gunicorn app:app`.
 
-6. Deploy and open the public URL.
+### Important notes
 
-> Note: This repository uses a server-side scanner. Be mindful of abuse and scanning limits when exposing it to the public.
+- `app.py` serves the web interface on port `5000` by default and `gunicorn` will bind to the host/port provided by the platform.
+- `render.yaml` is included for Render deployments, and `runtime.txt` pins Python 3.11.
+- The app saves generated reports in `output/` and serves them at `/reports/<filename>`.
+
+> Note: This repository runs a server-side scanner. Be careful with public exposure, scanning limits, and authorized testing only.
 
 ## Publishing on GitHub
 
