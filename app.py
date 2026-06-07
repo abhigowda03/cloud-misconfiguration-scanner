@@ -18,7 +18,11 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATE_DIR = BASE_DIR / "templates"
 
-app = Flask(__name__, template_folder=str(TEMPLATE_DIR))
+logger.info("Template directory: %s exists=%s", TEMPLATE_DIR, TEMPLATE_DIR.exists())
+if TEMPLATE_DIR.exists():
+    logger.info("Templates available: %s", ", ".join(sorted([p.name for p in TEMPLATE_DIR.iterdir()])))
+
+app = Flask(__name__, root_path=str(BASE_DIR), template_folder="templates")
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "replace-with-secret")
 app.config["OUTPUT_DIR"] = OUTPUT_DIR
 
