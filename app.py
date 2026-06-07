@@ -22,12 +22,25 @@ app = Flask(__name__, template_folder=str(TEMPLATE_DIR))
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "replace-with-secret")
 app.config["OUTPUT_DIR"] = OUTPUT_DIR
 
-scanner = CloudMisconfigurationScanner(output_dir=str(OUTPUT_DIR))
+try:
+    from main import CloudMisconfigurationScanner
+
+    scanner = CloudMisconfigurationScanner(output_dir=str(OUTPUT_DIR))
+    scanner_init_error = None
+except Exception as exc:
+    scanner = None
+    scanner_init_error = str(exc)
+    logger.exception("Failed to initialize CloudMisconfigurationScanner")
 
 
 @app.route("/", methods=["GET"])
 def index():
     """Render the web-based scan form."""
+    if scanner_init_error:
+        return (
+            f"<h1>Application initialization failed</h1><p>{scanner_init_error}</p>",
+            500,
+        )
     return render_template("index.html")
 
 
