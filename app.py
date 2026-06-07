@@ -15,7 +15,10 @@ logger = logging.getLogger(__name__)
 OUTPUT_DIR = Path("output")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+TEMPLATE_DIR = BASE_DIR / "templates"
+
+app = Flask(__name__, template_folder=str(TEMPLATE_DIR))
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "replace-with-secret")
 app.config["OUTPUT_DIR"] = OUTPUT_DIR
 
