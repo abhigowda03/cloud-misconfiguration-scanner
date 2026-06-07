@@ -64,6 +64,7 @@ coverage.xml
 output/
 reports/
 *.html
+!templates/*.html
 *.pdf
 
 # OS
