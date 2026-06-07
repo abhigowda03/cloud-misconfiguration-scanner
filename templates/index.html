@@ -74,5 +74,25 @@
 
         <p class="footer-note mt-4">The scan runs on the server and saves generated reports in the <code>output/</code> folder.</p>
     </div>
+
+    <!-- Scanning modal -->
+    <div id="scanningModal" class="scanning-modal">
+        <div class="scanning-content">
+            <div class="spinner"></div>
+            <h2>Scanning domain...</h2>
+            <p>Analyzing cloud storage configurations</p>
+            <div class="scan-steps">
+                <div class="scan-step">Discovering cloud buckets</div>
+                <div class="scan-step">Checking access levels</div>
+                <div class="scan-step">Generating report</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('scanningModal').classList.add('active');
+        });
+    </script>
 </body>
 </html>
