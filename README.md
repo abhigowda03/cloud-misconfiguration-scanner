@@ -1,5 +1,9 @@
 # Cloud Misconfiguration Scanner
 
+[![CI](https://github.com/abhigowda03/cloud-misconfiguration-scanner/actions/workflows/python-app.yml/badge.svg)](https://github.com/abhigowda03/cloud-misconfiguration-scanner/actions/workflows/python-app.yml)
+
+[Live Demo](https://cloud-misconfiguration-scanner.onrender.com)
+
 A comprehensive security tool that detects exposed S3 buckets and Azure blobs without requiring authentication. This tool works on public-facing infrastructure and generates detailed risk reports.
 
 ## Features
@@ -96,13 +100,16 @@ Then open `http://127.0.0.1:5000` in your browser.
 
 To publish the project online, use a Python-capable hosting service such as Render, Railway, Fly.io, or Azure App Service.
 
+This repository now includes GitHub Actions CI for syntax and build checks on every push to `main`.
+
 ### Recommended: Render.com
 
 1. Push the repository to GitHub.
-2. Add `requirements.txt`, `app.py`, `Procfile`, and `render.yaml` to the repo.
-3. Connect the repo in Render and choose the `main` branch.
-4. Render will use `pip install -r requirements.txt` and start the app with `gunicorn app:app`.
-5. Open the public URL Render gives you.
+2. Connect the repo in Render and choose the `main` branch.
+3. Render will use `pip install -r requirements.txt` and start the app with `gunicorn app:app`.
+4. Open the public URL Render gives you.
+
+> Render already supports auto-deploy from GitHub, so pushes to `main` will update the deployed site.
 
 ### Alternative: Railway or Azure
 
