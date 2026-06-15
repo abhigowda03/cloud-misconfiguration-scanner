@@ -2,6 +2,7 @@
 
 import boto3
 import requests
+from botocore.config import Config
 from botocore.exceptions import ClientError, NoCredentialsError
 from typing import Dict, List, Any, Optional
 import logging
@@ -20,9 +21,11 @@ class S3Scanner:
             aws_access_key_id="",
             aws_secret_access_key="",
             region_name="us-east-1",
-            config=boto3.session.Config(
+            config=Config(
                 signature_version="s3v4",
                 retries={"max_attempts": 3, "mode": "standard"},
+                connect_timeout=5,
+                read_timeout=5,
             ),
         )
         self.s3_resource = boto3.resource(
@@ -81,7 +84,7 @@ class S3Scanner:
             if response.status_code == 200:
                 findings["vulnerabilities"].append("BUCKET_PUBLICLY_ACCESSIBLE")
                 findings["details"]["http_accessible"] = True
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             logger.debug(f"HTTP access check for {bucket_name}: {e}")
 
         # Check list objects (read access)
