@@ -23,7 +23,7 @@ class S3Scanner:
             region_name="us-east-1",
             config=Config(
                 signature_version="s3v4",
-                retries={"max_attempts": 3, "mode": "standard"},
+                retries={"max_attempts": 1, "mode": "standard"},
                 connect_timeout=5,
                 read_timeout=5,
             ),
@@ -33,6 +33,12 @@ class S3Scanner:
             aws_access_key_id="",
             aws_secret_access_key="",
             region_name="us-east-1",
+            config=Config(
+                signature_version="s3v4",
+                retries={"max_attempts": 1, "mode": "standard"},
+                connect_timeout=5,
+                read_timeout=5,
+            ),
         )
 
     def scan_buckets(self, bucket_names: List[str]) -> List[Dict[str, Any]]:
