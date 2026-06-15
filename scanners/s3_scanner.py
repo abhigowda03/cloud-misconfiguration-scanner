@@ -3,7 +3,7 @@
 import boto3
 import requests
 from botocore.config import Config
-from botocore.exceptions import ClientError, NoCredentialsError
+from botocore.exceptions import ClientError, EndpointConnectionError, NoCredentialsError
 from typing import Dict, List, Any, Optional
 import logging
 
@@ -98,6 +98,11 @@ class S3Scanner:
                 return None
             elif error_code in ["AccessDenied", "SignatureDoesNotMatch"]:
                 findings["details"]["list_objects"] = False
+            else:
+                logger.debug(f"S3 list_objects_v2 returned ClientError for {bucket_name}: {e}")
+        except EndpointConnectionError as e:
+            logger.debug(f"S3 endpoint connection error for {bucket_name}: {e}")
+            findings["details"]["list_objects"] = False
         except Exception as e:
             logger.debug(f"List objects check for {bucket_name}: {e}")
 
